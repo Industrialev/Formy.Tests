@@ -19,6 +19,10 @@ namespace Formy.Tests.PageObjects
         [CacheLookup]
         private IWebElement addressField;
 
+        [FindsBy(How = How.Id, Using = "street_number")]
+        [CacheLookup]
+        private IWebElement streetAddress1Field;
+
         [FindsBy(How = How.ClassName, Using = "pac-logo")]
         private IWebElement autocompleteList;
 
@@ -28,15 +32,15 @@ namespace Formy.Tests.PageObjects
 
         public void EnterDataToAddressField(string address)
         {
+            addressField.Click();
             addressField.SendKeys(address);
         }
 
         public void ClickAutocompleteSuggestion()
         {
+            Thread.Sleep(1000);
             streetAddress1Field.Click();
             addressField.Click();
-            
-            wait.Until<ExpectedConditions.ElementToBeClickable(By.)>
             autocompleteList.Click();
         }
 
