@@ -3,7 +3,6 @@
 	As a user
 	I want the webpage to autocomplete the data
 
-@Browser_Edge
 @Browser_Firefox
 @Browser_Chrome
 Scenario Outline: Autocomplete the valid address

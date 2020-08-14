@@ -8,12 +8,6 @@
   </TestAssemblyPaths>
   
   <Targets>
-    <Target name="Edge">
-      <Filter>Browser_Edge</Filter>
-      <DeploymentTransformationSteps>
-        <EnvironmentVariable variable="Test_Browser" value="Edge" />
-      </DeploymentTransformationSteps>
-    </Target>
     <Target name="Chrome">
       <Filter>Browser_Chrome</Filter>
       <DeploymentTransformationSteps>
