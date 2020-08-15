@@ -9,7 +9,9 @@
 Scenario Outline: Autocomplete the valid address
 	Given I am on the Autocomplete page
 	When I enter <address> in address field
-	Then I can select autocomplete suggestion
+	And I select autocomplete suggestion
+	And I click on autocomplete suggestion
+	Then I should not see list with autocomplete suggestions
 
 	Examples: 
 	| address                                          |
@@ -17,12 +19,14 @@ Scenario Outline: Autocomplete the valid address
 	| Dolnych Młynów 10, Kraków, Polska                |
 	| Wuhe County, Bengbu, Chiny, 233333               |
 
+	# TODO: How to handle 'I can see' steps?
 @Browser_Firefox
 @Browser_Chrome
 Scenario Outline: Autocomplete with one of proposed addresses
 	Given I am on the Autocomplete page
 	When I enter only beginning of the address 242
-	Then I can select <id> address from five proposed
+	And I select <id> address from five items proposed
+	Then I should not see list with autocomplete suggestions
 	
 	Examples:
 	| id     |

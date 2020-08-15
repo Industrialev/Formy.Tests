@@ -1,6 +1,7 @@
 ﻿using Formy.Tests.PageObjects;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using System;
 using System.Threading;
 using TechTalk.SpecFlow;
 
@@ -27,29 +28,27 @@ namespace Formy.Tests.Steps
 
         [When("I enter (.*) in address field")]
         [When("I enter only beginning of the address (.*)")]
-        public void GivenIEnterInAddressField(string address)
+        public void WhenIEnterInAddressField(string address)
         {
             autocompletePage.EnterDataToAddressField(address);
+            bool AutocompleteListIsVisible = autocompletePage.IsAutocompleteListVisible();
+            Assert.That(AutocompleteListIsVisible, Is.True);
         }
 
-        [Then("I can select autocomplete suggestion")]
-        [Then("I can select (.*) address from five proposed")]
-        public void GivenISelectAutocompleteSuggestion(ItemId itemId = ItemId.First)
+        [When("I select autocomplete suggestion")]
+        [When("I select (.*) address from five items proposed")]
+        public void WhenISelectAutocompleteSuggestion(AddressItemId addressItemId = AddressItemId.First)
         {
-            autocompletePage.ClickAutocompleteSuggestion((int)itemId);
+            autocompletePage.SelectItemFromAutocompleteList((int)addressItemId);
+            autocompletePage.ClickAutocompleteSuggestion();
             Thread.Sleep(1000);
         }
-    }
 
-    /// <summary>
-    /// Enum used when selecting item from autocomplete list.
-    /// </summary>
-    public enum ItemId
-    {
-        First = 0,
-        Second = 1,
-        Third = 2,
-        Fourth = 3,
-        Fifth = 4,
+        [Then("I should not see list with autocomplete suggestions")]
+        public void ThenICannotSeeListWithAutocompleteSuggestions(string condition)
+        {
+            bool AutocompleteListIsVisible = autocompletePage.IsAutocompleteListVisible();
+            Assert.That(AutocompleteListIsVisible, Is.False);
+        }
     }
 }

@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading;
 
@@ -23,9 +24,6 @@ namespace Formy.Tests.PageObjects
         [CacheLookup]
         private IWebElement streetAddress1Field;
 
-        [FindsBy(How = How.ClassName, Using = "pac-item")]
-        private IList<IWebElement> autocompleteItems;
-
         public AutocompletePage(IWebDriver driver): base(driver)
         {
         }
@@ -34,13 +32,25 @@ namespace Formy.Tests.PageObjects
         {
             addressField.Click();
             addressField.SendKeys(address);
+            Thread.Sleep(4000);
         }
 
-        public void ClickAutocompleteSuggestion(int itemId)
+        public void SelectItemFromAutocompleteList(int itemId)
         {
-            Thread.Sleep(1000);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].click ()", autocompleteItems[itemId]);
+            for (int keyDownStep = 0; keyDownStep < itemId; keyDownStep++)
+            {
+                addressField.SendKeys(Keys.Down);
+            }
+        }
+
+        public void ClickAutocompleteSuggestion()
+        {
+            addressField.SendKeys(Keys.Enter);
+        }
+
+        public bool IsAutocompleteListVisible()
+        {
+            return driver.FindElements(By.ClassName("pac-item")).Count != 0;
         }
 
         public bool IsPageShown()
