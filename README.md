@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.com/Industrialev/Formy.Tests.svg?token=3ideFN4HyVAZRSnmsm6d&branch=master)
+
 # Formy.Tests
 Automated BDD tests for formy-project.herokuapp.com.
 
