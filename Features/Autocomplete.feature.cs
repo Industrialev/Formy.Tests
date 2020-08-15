@@ -75,9 +75,9 @@ namespace Formy.Tests.Features
         public virtual void AutocompleteTheValidAddress(string address, string[] exampleTags)
         {
             string[] @__tags = new string[] {
-                    "Browser_Edge",
                     "Browser_Firefox",
-                    "Browser_Chrome"};
+                    "Browser_Chrome",
+                    "positive"};
             if ((exampleTags != null))
             {
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
@@ -120,9 +120,9 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Autocomplete the valid address, 1553 Shawson Drive, Mississauga, Ontario, Kanada", new string[] {
-                "Browser_Edge",
                 "Browser_Firefox",
-                "Browser_Chrome"}, SourceLine=15)]
+                "Browser_Chrome",
+                "positive"}, SourceLine=15)]
         public virtual void AutocompleteTheValidAddress_1553ShawsonDriveMississaugaOntarioKanada()
         {
 #line 9
@@ -131,9 +131,9 @@ this.AutocompleteTheValidAddress("1553 Shawson Drive, Mississauga, Ontario, Kana
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Autocomplete the valid address, Dolnych Młynów 10, Kraków, Polska", new string[] {
-                "Browser_Edge",
                 "Browser_Firefox",
-                "Browser_Chrome"}, SourceLine=15)]
+                "Browser_Chrome",
+                "positive"}, SourceLine=15)]
         public virtual void AutocompleteTheValidAddress_DolnychMlynow10KrakowPolska()
         {
 #line 9
@@ -142,13 +142,109 @@ this.AutocompleteTheValidAddress("Dolnych Młynów 10, Kraków, Polska", ((strin
         }
         
         [TechTalk.SpecRun.ScenarioAttribute("Autocomplete the valid address, Wuhe County, Bengbu, Chiny, 233333", new string[] {
-                "Browser_Edge",
                 "Browser_Firefox",
-                "Browser_Chrome"}, SourceLine=15)]
+                "Browser_Chrome",
+                "positive"}, SourceLine=15)]
         public virtual void AutocompleteTheValidAddress_WuheCountyBengbuChiny233333()
         {
 #line 9
 this.AutocompleteTheValidAddress("Wuhe County, Bengbu, Chiny, 233333", ((string[])(null)));
+#line hidden
+        }
+        
+        public virtual void AutocompleteWithOneOfProposedAddresses(string id, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Browser_Firefox",
+                    "Browser_Chrome"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("id", id);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Autocomplete with one of proposed addresses", null, tagsOfScenario, argumentsOfScenario);
+#line 22
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 23
+ testRunner.Given("I am on the Autocomplete page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 24
+ testRunner.When("I enter only beginning of the address 242", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 25
+ testRunner.Then(string.Format("I can select {0} address from five proposed", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Autocomplete with one of proposed addresses, first", new string[] {
+                "Browser_Firefox",
+                "Browser_Chrome"}, SourceLine=28)]
+        public virtual void AutocompleteWithOneOfProposedAddresses_First()
+        {
+#line 22
+this.AutocompleteWithOneOfProposedAddresses("first", ((string[])(null)));
+#line hidden
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Autocomplete with one of proposed addresses, second", new string[] {
+                "Browser_Firefox",
+                "Browser_Chrome"}, SourceLine=28)]
+        public virtual void AutocompleteWithOneOfProposedAddresses_Second()
+        {
+#line 22
+this.AutocompleteWithOneOfProposedAddresses("second", ((string[])(null)));
+#line hidden
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Autocomplete with one of proposed addresses, third", new string[] {
+                "Browser_Firefox",
+                "Browser_Chrome"}, SourceLine=28)]
+        public virtual void AutocompleteWithOneOfProposedAddresses_Third()
+        {
+#line 22
+this.AutocompleteWithOneOfProposedAddresses("third", ((string[])(null)));
+#line hidden
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Autocomplete with one of proposed addresses, fourth", new string[] {
+                "Browser_Firefox",
+                "Browser_Chrome"}, SourceLine=28)]
+        public virtual void AutocompleteWithOneOfProposedAddresses_Fourth()
+        {
+#line 22
+this.AutocompleteWithOneOfProposedAddresses("fourth", ((string[])(null)));
+#line hidden
+        }
+        
+        [TechTalk.SpecRun.ScenarioAttribute("Autocomplete with one of proposed addresses, fifth", new string[] {
+                "Browser_Firefox",
+                "Browser_Chrome"}, SourceLine=28)]
+        public virtual void AutocompleteWithOneOfProposedAddresses_Fifth()
+        {
+#line 22
+this.AutocompleteWithOneOfProposedAddresses("fifth", ((string[])(null)));
 #line hidden
         }
     }

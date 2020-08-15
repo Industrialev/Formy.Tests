@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Text;
 using TechTalk.SpecFlow;
 using System.Security.Policy;
+using System.Reflection;
+using System.IO;
 
 namespace Formy.Tests.Hooks
 {
@@ -43,11 +45,12 @@ namespace Formy.Tests.Hooks
 
         private IWebDriver GetWebDriver()
         {
+            string webDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             return (Environment.GetEnvironmentVariable("Test_Browser")) switch
             {
-                "Edge" => new EdgeDriver(new EdgeOptions { UseChromium = true, UseInPrivateBrowsing = true }),
-                "Chrome" => new ChromeDriver(),
-                "Firefox" => new FirefoxDriver(),
+                "Edge" => new EdgeDriver(webDriverLocation, new EdgeOptions { UseChromium = true, UseInPrivateBrowsing = true }),
+                "Chrome" => new ChromeDriver(webDriverLocation),
+                "Firefox" => new FirefoxDriver(webDriverLocation),
                 string browser => throw new NotSupportedException($"{browser} is not a supported browser"),
                 _ => throw new NotSupportedException("not supported browser: <null>"),
             };

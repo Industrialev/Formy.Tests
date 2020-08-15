@@ -23,8 +23,8 @@ namespace Formy.Tests.PageObjects
         [CacheLookup]
         private IWebElement streetAddress1Field;
 
-        [FindsBy(How = How.ClassName, Using = "pac-logo")]
-        private IWebElement autocompleteList;
+        [FindsBy(How = How.ClassName, Using = "pac-item")]
+        private IList<IWebElement> autocompleteItems;
 
         public AutocompletePage(IWebDriver driver): base(driver)
         {
@@ -36,11 +36,11 @@ namespace Formy.Tests.PageObjects
             addressField.SendKeys(address);
         }
 
-        public void ClickAutocompleteSuggestion()
+        public void ClickAutocompleteSuggestion(int itemId)
         {
             Thread.Sleep(1000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].click ()", autocompleteList);
+            js.ExecuteScript("arguments[0].click ()", autocompleteItems[itemId]);
         }
 
         public bool IsPageShown()
