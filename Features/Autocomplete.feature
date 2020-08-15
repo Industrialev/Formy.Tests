@@ -3,6 +3,8 @@
 	As a user
 	I want the webpage to autocomplete the data
 
+@Browser_Firefox
+@Browser_Chrome
 Scenario Outline: Autocomplete the valid address
 	Given I am on the Autocomplete page
 	When I enter <address> in address field

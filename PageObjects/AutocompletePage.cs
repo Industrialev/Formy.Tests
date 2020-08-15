@@ -39,9 +39,8 @@ namespace Formy.Tests.PageObjects
         public void ClickAutocompleteSuggestion()
         {
             Thread.Sleep(1000);
-            streetAddress1Field.Click();
-            addressField.Click();
-            autocompleteList.Click();
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].click ()", autocompleteList);
         }
 
         public bool IsPageShown()
