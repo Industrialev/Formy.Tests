@@ -10,12 +10,16 @@ using TechTalk.SpecFlow;
 using System.Security.Policy;
 using System.Reflection;
 using System.IO;
+using Formy.Tests.Helpers;
+using NLog;
 
 namespace Formy.Tests.Hooks
 {
     [Binding]
     public class WebDriverSupport
     {
+        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        
         private IObjectContainer objectContainer;
         private string BaseUrl = "https://formy-project.herokuapp.com/";
 
@@ -30,7 +34,9 @@ namespace Formy.Tests.Hooks
             var webDriver = GetWebDriver();
             webDriver.Navigate().GoToUrl(BaseUrl);
             webDriver.Manage().Window.Maximize();
-            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            WaitHandler.EnableImplicitWait(webDriver);
+            logger.Info("Webdriver has been initialized");
+
             objectContainer.RegisterInstanceAs(webDriver);
         }
 
@@ -38,15 +44,19 @@ namespace Formy.Tests.Hooks
         public void CleanupDriver()
         {
             var driver = objectContainer.Resolve<IWebDriver>();
-            driver.Close();
+            driver.Quit();
             driver.Dispose();
+            logger.Debug("Webdriver has been disposed.");
             objectContainer.Dispose();
         }
 
         private IWebDriver GetWebDriver()
         {
-            string webDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            return (Environment.GetEnvironmentVariable("Test_Browser")) switch
+            var webDriverLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var browserName = Environment.GetEnvironmentVariable("Test_Browser");
+
+            logger.Info($"{browserName} has been selected as WebDriver Browser");
+            return (browserName) switch
             {
                 "Edge" => new EdgeDriver(webDriverLocation, new EdgeOptions { UseChromium = true, UseInPrivateBrowsing = true }),
                 "Chrome" => new ChromeDriver(webDriverLocation),

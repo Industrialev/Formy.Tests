@@ -1,28 +1,22 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+﻿using Formy.Tests.Helpers;
+using NLog;
+using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading;
 
 namespace Formy.Tests.PageObjects
 {
     public class AutocompletePage : BasePage
     {
+        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+
         // TODO: Is there a way to check content of each text field?
-        [FindsBy(How = How.Name, Using = "Autocomplete")]
+        [FindsBy(How = How.XPath, Using = "//div/h1")]
         [CacheLookup]
         private IWebElement pageTitle;
 
         [FindsBy(How = How.Id, Using = "autocomplete")]
         [CacheLookup]
         private IWebElement addressField;
-
-        [FindsBy(How = How.Id, Using = "street_number")]
-        [CacheLookup]
-        private IWebElement streetAddress1Field;
 
         public AutocompletePage(IWebDriver driver): base(driver)
         {
@@ -32,7 +26,7 @@ namespace Formy.Tests.PageObjects
         {
             addressField.Click();
             addressField.SendKeys(address);
-            Thread.Sleep(4000);
+            logger.Info($"{address} has been entered to address field.");
         }
 
         public void SelectItemFromAutocompleteList(int itemId)
@@ -46,16 +40,21 @@ namespace Formy.Tests.PageObjects
         public void ClickAutocompleteSuggestion()
         {
             addressField.SendKeys(Keys.Enter);
+            logger.Info("Autocomplete suggestion has been selected from the list.");
+        }
+
+        public string GetPageTitle()
+        {
+            return pageTitle.Text;
         }
 
         public bool IsAutocompleteListVisible()
         {
-            return driver.FindElements(By.ClassName("pac-item")).Count != 0;
-        }
+            WaitHandler.DisableImplicitWait(driver);
+            var isVisible = driver.FindElements(By.ClassName("pac-item")).Count != 0;
+            WaitHandler.EnableImplicitWait(driver);
 
-        public bool IsPageShown()
-        {
-            return pageTitle.Displayed;
+            return isVisible;
         }
     }
 }

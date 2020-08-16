@@ -9,8 +9,7 @@
 Scenario Outline: Autocomplete the valid address
 	Given I am on the Autocomplete page
 	When I enter <address> in address field
-	And I select autocomplete suggestion
-	And I click on autocomplete suggestion
+	And I select first address from autosuggestion list
 	Then I should not see list with autocomplete suggestions
 
 	Examples: 
@@ -25,7 +24,7 @@ Scenario Outline: Autocomplete the valid address
 Scenario Outline: Autocomplete with one of proposed addresses
 	Given I am on the Autocomplete page
 	When I enter only beginning of the address 242
-	And I select <id> address from five items proposed
+	And I select <id> address from autosuggestion list
 	Then I should not see list with autocomplete suggestions
 	
 	Examples:

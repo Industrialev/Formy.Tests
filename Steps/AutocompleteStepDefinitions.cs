@@ -10,7 +10,7 @@ namespace Formy.Tests.Steps
     [Binding]
     public sealed class AutocompleteStepDefinitions
     {
-        private MainPage mainPage;
+        private readonly MainPage mainPage;
         private AutocompletePage autocompletePage;
 
         public AutocompleteStepDefinitions(IWebDriver driver)
@@ -24,6 +24,8 @@ namespace Formy.Tests.Steps
         {
             mainPage.OpenPage();
             autocompletePage = mainPage.GoToAutocompletePage();
+
+            Assert.That(autocompletePage.GetPageTitle(), Is.EqualTo("Autocomplete"));
         }
 
         [When("I enter (.*) in address field")]
@@ -31,24 +33,22 @@ namespace Formy.Tests.Steps
         public void WhenIEnterInAddressField(string address)
         {
             autocompletePage.EnterDataToAddressField(address);
-            bool AutocompleteListIsVisible = autocompletePage.IsAutocompleteListVisible();
-            Assert.That(AutocompleteListIsVisible, Is.True);
+            bool IsAutocompleteListVisible = autocompletePage.IsAutocompleteListVisible();
+            Assert.That(IsAutocompleteListVisible, Is.True);
         }
 
-        [When("I select autocomplete suggestion")]
-        [When("I select (.*) address from five items proposed")]
-        public void WhenISelectAutocompleteSuggestion(AddressItemId addressItemId = AddressItemId.First)
+        [When("I select (.*) address from autosuggestion list")]
+        public void ThenISelectAddressFromFiveItemsProposed(AddressItemId addressItemId = AddressItemId.First)
         {
             autocompletePage.SelectItemFromAutocompleteList((int)addressItemId);
             autocompletePage.ClickAutocompleteSuggestion();
-            Thread.Sleep(1000);
         }
 
         [Then("I should not see list with autocomplete suggestions")]
-        public void ThenICannotSeeListWithAutocompleteSuggestions(string condition)
+        public void ThenIShouldNotSeeListWithAutocompleteSuggestions()
         {
-            bool AutocompleteListIsVisible = autocompletePage.IsAutocompleteListVisible();
-            Assert.That(AutocompleteListIsVisible, Is.False);
+            bool IsAutocompleteListVisible = autocompletePage.IsAutocompleteListVisible();
+            Assert.That(IsAutocompleteListVisible, Is.False);
         }
     }
 }
