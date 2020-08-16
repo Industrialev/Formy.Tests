@@ -24,31 +24,29 @@ namespace Formy.Tests.Steps
         {
             mainPage.OpenPage();
             autocompletePage = mainPage.GoToAutocompletePage();
-
-            Assert.That(autocompletePage.GetPageTitle(), Is.EqualTo("Autocomplete"));
+            // Workaround: ChromeDriver has a problem with JavaScript(?) which suggests addresses for autocompletion
+            // Waiting for 2 seconds help.
+            Thread.Sleep(TimeSpan.FromSeconds(2));
         }
 
         [When("I enter (.*) in address field")]
         [When("I enter only beginning of the address (.*)")]
         public void WhenIEnterInAddressField(string address)
         {
-            autocompletePage.EnterDataToAddressField(address);
-            bool IsAutocompleteListVisible = autocompletePage.IsAutocompleteListVisible();
-            Assert.That(IsAutocompleteListVisible, Is.True);
+            autocompletePage.SearchAddress(address);
+            Assert.That(autocompletePage.IsAutocompleteListVisible(disableImplicitWait: true), Is.True);
         }
 
         [When("I select (.*) address from autosuggestion list")]
         public void ThenISelectAddressFromFiveItemsProposed(AddressItemId addressItemId = AddressItemId.First)
         {
-            autocompletePage.SelectItemFromAutocompleteList((int)addressItemId);
-            autocompletePage.ClickAutocompleteSuggestion();
+            autocompletePage.SelectAddress((int)addressItemId);
         }
 
         [Then("I should not see list with autocomplete suggestions")]
         public void ThenIShouldNotSeeListWithAutocompleteSuggestions()
         {
-            bool IsAutocompleteListVisible = autocompletePage.IsAutocompleteListVisible();
-            Assert.That(IsAutocompleteListVisible, Is.False);
+            Assert.That(autocompletePage.IsAutocompleteListVisible(disableImplicitWait: false), Is.False);
         }
     }
 }

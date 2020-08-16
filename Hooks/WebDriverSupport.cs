@@ -34,7 +34,7 @@ namespace Formy.Tests.Hooks
             var webDriver = GetWebDriver();
             webDriver.Navigate().GoToUrl(BaseUrl);
             webDriver.Manage().Window.Maximize();
-            WaitHandler.EnableImplicitWait(webDriver);
+            webDriver.EnableImplicitWait();
             logger.Info("Webdriver has been initialized");
 
             objectContainer.RegisterInstanceAs(webDriver);

@@ -48,9 +48,11 @@ namespace Formy.Tests.PageObjects
 
         private IWebElement completeWebFormLink;
 
-        public void OpenPage()
+        public MainPage OpenPage()
         {
             driver.Navigate().GoToUrl(pageUrl);
+
+            return this;
         }
 
         public AutocompletePage GoToAutocompletePage()

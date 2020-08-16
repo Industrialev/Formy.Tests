@@ -1,6 +1,7 @@
 ﻿using Formy.Tests.Helpers;
 using NLog;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 
 namespace Formy.Tests.PageObjects
@@ -14,45 +15,41 @@ namespace Formy.Tests.PageObjects
         [CacheLookup]
         private IWebElement pageTitle;
 
-        [FindsBy(How = How.Id, Using = "autocomplete")]
-        [CacheLookup]
-        private IWebElement addressField;
-
         public AutocompletePage(IWebDriver driver): base(driver)
         {
+            PageName = "Autocomplete";
         }
 
-        public void EnterDataToAddressField(string address)
+        public AutocompletePage SearchAddress(string address)
         {
+            var addressField = driver.FindElement(By.Id("autocomplete"));
             addressField.Click();
             addressField.SendKeys(address);
             logger.Info($"{address} has been entered to address field.");
+            wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("pac-item")));
+
+            return this;
         }
 
-        public void SelectItemFromAutocompleteList(int itemId)
+        public AutocompletePage SelectAddress(int itemId)
         {
+            var addressField = driver.FindElement(By.Id("autocomplete"));
             for (int keyDownStep = 0; keyDownStep < itemId; keyDownStep++)
             {
                 addressField.SendKeys(Keys.Down);
             }
-        }
 
-        public void ClickAutocompleteSuggestion()
-        {
             addressField.SendKeys(Keys.Enter);
             logger.Info("Autocomplete suggestion has been selected from the list.");
+
+            return this;
         }
 
-        public string GetPageTitle()
+        public bool IsAutocompleteListVisible(bool disableImplicitWait)
         {
-            return pageTitle.Text;
-        }
-
-        public bool IsAutocompleteListVisible()
-        {
-            WaitHandler.DisableImplicitWait(driver);
+            if (disableImplicitWait == true) driver.DisableImplicitWait();
             var isVisible = driver.FindElements(By.ClassName("pac-item")).Count != 0;
-            WaitHandler.EnableImplicitWait(driver);
+            if (disableImplicitWait == true) driver.EnableImplicitWait();
 
             return isVisible;
         }

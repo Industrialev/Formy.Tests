@@ -9,14 +9,16 @@ namespace Formy.Tests.PageObjects
 {
     public class BasePage
     {
-        protected BasePage(IWebDriver driver)
-        {
-            this.driver = driver;
-            PageFactory.InitElements(driver, this);
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-        }
+        protected string PageName;
 
         protected IWebDriver driver;
         protected WebDriverWait wait;
+
+        protected BasePage(IWebDriver driver)
+        {
+            this.driver = driver;
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            PageFactory.InitElements(driver, this);
+        }
     }
 }
